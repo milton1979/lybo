@@ -29,7 +29,7 @@ class DefaultController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'ciudadProvincia'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -38,7 +38,7 @@ class DefaultController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -75,8 +75,7 @@ class DefaultController extends Controller
                         $model->pass=$_POST['Usuario']['dni'];                        
                         $model->admin=true;
                         $model->estado=1;
-                        print_r($model->attributes);
-			if($model->save())
+                        if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
@@ -116,7 +115,10 @@ class DefaultController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model=$this->loadModel($id);
+                $model->admin=0;
+                if($model->save())
+                    $this->redirect(array('view','id'=>$model->id));
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -160,7 +162,7 @@ class DefaultController extends Controller
 	{
 		$model=Usuario::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException(404,'No se puede encontrar la pagina solicitada.');
 		return $model;
 	}
 
@@ -176,4 +178,12 @@ class DefaultController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        public function ciudadProvincia()
+	{
+            echo "llega";
+            $list=Ciudad::model()->findAll("idprovincia=?",array($_POST["Usuario"]["idciudad0"]));
+            foreach($list as $data)
+                echo "<option value=\"{$data->id}\">{$data->nombre}</option>";
+        }
 }

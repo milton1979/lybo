@@ -32,11 +32,11 @@ array('allow',  // allow all users to perform 'index' and 'view' actions
 ),
 array('allow', // allow authenticated user to perform 'create' and 'update' actions
 'actions'=>array('create','update'),
-'users'=>array('@'),
+'users'=>array('*'),
 ),
 array('allow', // allow admin user to perform 'admin' and 'delete' actions
 'actions'=>array('admin','delete'),
-'users'=>array('admin'),
+'users'=>array('*'),
 ),
 array('deny',  // deny all users
 'users'=>array('*'),
@@ -62,19 +62,46 @@ $this->render('view',array(
 public function actionCreate()
 {
 $model=new Empleado;
-
+$modelUs=new Usuario;
 // Uncomment the following line if AJAX validation is needed
-// $this->performAjaxValidation($model);
+$this->performAjaxValidation($model);
+
+if (isset($_POST['Usuario']['dni']))
+{
+    if(Usuario::model()->findByAttributes(array('dni'=>$_POST['Usuario']['dni'])))
+    {
+        $modelUs = Usuario::model()->findByAttributes(array('dni'=>$_POST['Usuario']['dni']));
+        $model->idbiblioteca=$_POST['Empleado']['idbiblioteca'];
+        $model->idusuario=$modelUs->id;
+    }
+    else
+    {
+       Yii::app()->user->setFlash('success', "El usuario no se encuentra registrado en el sistema.");
+    }
+        
+}    /*
+if (isset($_POST['Usuario']['nombre']))
+{
+    $modelUs->attributes=$_POST['Usuario'];
+    if($modelUs->save())
+    {
+        $model->idbiblioteca=$_POST['Empleado']['idbiblioteca'];
+        $model->idusuario=$modelUs->id;
+        if($model->save())
+            $this->redirect(array('view','id'=>$model->id));
+    }
+}
 
 if(isset($_POST['Empleado']))
 {
 $model->attributes=$_POST['Empleado'];
 if($model->save())
 $this->redirect(array('view','id'=>$model->idempleado));
-}
+}*/
 
 $this->render('create',array(
 'model'=>$model,
+'modelUs'=>$modelUs,
 ));
 }
 

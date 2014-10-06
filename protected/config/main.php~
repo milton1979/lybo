@@ -35,8 +35,7 @@ return array(
             			),
 			// ********* HASTA ACÁ ************
 		),
-		'biblioteca',
-		
+		'usuarios',
 	),
 
 	// application components

@@ -55,7 +55,7 @@
         <table>
         <tbody>
         <tr>
-            <th class="span2"><?php echo $form->textFieldRow($model,'dni',array('placeholder'=>'DNI','maxlength'=>11, 'class'=>'span2',)); ?></th>
+            <th class="span2"><?php echo $form->textFieldRow($model,'dni',array('placeholder'=>'DNI','maxlength'=>8, 'class'=>'span2',)); ?></th>
             <!--<th class="span2"><?php //echo $form->textFieldRow($model,'usuario',array('placeholder'=>'Usuario','maxlength'=>50, 'class'=>'span2')); ?></th>-->
             <!--<th class="span2"><?php //echo $form->textFieldRow($model,'pass',array('placeholder'=>'Password','maxlength'=>50, 'class'=>'span2')); ?></th>-->
             <th class="span3"><?php echo $form->textFieldRow($model,'nombre',array('placeholder'=>'Nombre','maxlength'=>50, 'class'=>'span2')); ?></th>
@@ -65,8 +65,21 @@
         <tr>
             <th class="span2"><?php echo $form->textFieldRow($model,'telefono',array('placeholder'=>'Telefono','maxlength'=>50, 'class'=>'span2')); ?></th>
             <th class="span2"><?php echo $form->textFieldRow($model,'email',array('placeholder'=>'Correo Electronico','maxlength'=>50, 'class'=>'span2')); ?></th>
-            <th class="span2"><?php echo $form->dropDownList($model,'idciudad', CHtml::listData(Provincia::model()->findAll(), 'id', 'nombre'),array('empty'=>'Provincia', 'class'=>'span2')); ?>
-            <th class="span2"><?php echo $form->dropDownList($model,'idciudad', CHtml::listData(Ciudad::model()->findAll(), 'id', 'nombre'),array('empty'=>'Ciudad', 'class'=>'span2')); ?>
+            <?php
+            $htmlOptions= array(
+                   "ajax"=>array(
+                       "url"=>$this->createUrl("ciudadProvincia"),
+                       "type"=>"POST",
+                       "update"=>"#Usuario_idciudad",
+                   ),
+                "style"=>"width:140px;",
+            );
+            ?>
+            
+            <th class="span2"><?php echo $form->dropDownList($model,'idciudad0', $model->getProvincia(),$htmlOptions); ?></th>
+            <!--<th class="span2"><?php //echo $form->dropDownList($model,'idciudad0', CHtml::listData(Provincia::model()->findAll(), 'id', 'nombre'),array('empty'=>'Provincia', 'class'=>'span2')); ?>
+            <th class="span2"><?php //echo $form->dropDownList($model,'idciudad', CHtml::listData(Ciudad::model()->findAll(), 'id', 'nombre'),array('empty'=>'Ciudad', 'class'=>'span2')); ?><th>-->
+            <th class="span2"><?php echo $form->dropDownList($model,'idciudad', $model->getCiudad()); ?></th>
             <th class="span2"><?php echo $form->error($model,'provincia',array('class'=>'errorMessage')); ?></th>
         </tr>
         <tr>

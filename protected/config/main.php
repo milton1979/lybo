@@ -29,23 +29,23 @@ return array(
 			'password'=>'lybo',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
-			// ********* AGREGADO DESDE ACÃ� ********
+			// ********* AGREGADO DESDE ACÁ ********
 			'generatorPaths' => array(
                 		'bootstrap.gii'
             			),
-			// ********* HASTA ACÃ� ************
+			// ********* HASTA ACÁ ************
 		),
 		'usuarios',
 	),
 
 	// application components
 	'components'=>array(
-		// **************** AGREGADO DESDE ACÃ�**************
+		// **************** AGREGADO DESDE ACÁ**************
 		'bootstrap' => array(
             		'class' => 'application.extensions.bootstrap.components.Bootstrap',
             		//'responsiveCss' => true,
         	),	
-		// ***************** HASTA ACÃ�****************
+		// ***************** HASTA ACÁ****************
 
 		'user'=>array(
 			// enable cookie-based authentication
