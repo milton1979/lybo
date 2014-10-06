@@ -29,7 +29,7 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
+				array('label'=>'Inicio', 'url'=>array('/site/index')),
                 		array('label'=>'Usuarios', 'url'=>array('/usuarios', 'view'=>'about')),
 				array('label'=>'Bibliotecas', 'url'=>array('biblioteca/index', 'view'=>'about')),
 				array('label'=>'Libros', 'url'=>array('libro/index')),

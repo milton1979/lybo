@@ -9,4 +9,4 @@ $this->pageTitle=Yii::app()->name;
 
 
 
-<img src="../Lybo/css/img/Lybo.jpg"></img>
+<img src="../lybo/css/img/Lybo.jpg"></img>
