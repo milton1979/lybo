@@ -12,4 +12,7 @@ array('label'=>'Manage Empleado','url'=>array('admin')),
 
 <h1>Crear Empleado</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model, 'modelUs'=>$modelUs)); ?>
+<?php if(Yii::app()->user->hasFlash('success'))
+        echo $this->renderPartial('../default/_form', array('model'=>$model, 'modelUs'=>$modelUs));
+    else
+        echo $this->renderPartial('_form', array('model'=>$model, 'modelUs'=>$modelUs)); ?>

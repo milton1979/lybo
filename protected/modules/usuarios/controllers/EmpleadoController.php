@@ -77,6 +77,7 @@ if (isset($_POST['Usuario']['dni']))
     else
     {
        Yii::app()->user->setFlash('success', "El usuario no se encuentra registrado en el sistema.");
+       
     }
         
 }    /*
