@@ -7,8 +7,7 @@
 
 <?php  if(Yii::app()->user->hasFlash('success')):?>
      <div class="alert alert-info">
-         
-         <?php echo Yii::app()->user->getFlash('success'); //coment?>
+         <?php echo Yii::app()->user->getFlash('success');?>
      </div>
 <?php endif; ?>
 
