@@ -1,34 +1,30 @@
 <?php
-$this->breadcrumbs=array(
-	'Usuarios'=>array('index'),
-	$model->id,
+$this->breadcrumbs = array(
+    'Usuarios' => array('/usuarios'),
+    'Ver Administrador',
 );
 
-$this->menu=array(
-array('label'=>'List Usuario','url'=>array('index')),
-array('label'=>'Create Usuario','url'=>array('create')),
-array('label'=>'Update Usuario','url'=>array('update','id'=>$model->id)),
-array('label'=>'Delete Usuario','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>'Manage Usuario','url'=>array('admin')),
-);
+$this->beginWidget('bootstrap.widgets.TbBox', array(
+    'title' => $model->nombre . ' ' . $model->apellido,
+    'headerIcon' => 'icon-user',
+    'htmlOptions' => array('class' => 'bootstrap-widget-table', 'style' => 'width: 60%; margin: 1% 20%;'),
+));
 ?>
 
-<h1>View Usuario #<?php echo $model->id; ?></h1>
-
-<?php $this->widget('bootstrap.widgets.TbDetailView',array(
-'data'=>$model,
-'attributes'=>array(
-		'id',
-		'dni',
-		'usuario',
-		'pass',
-		'nombre',
-		'apellido',
-		'idciudad',
-		'direccion',
-		'telefono',
-		'email',
-		'estado',
-		'admin',
-),
-)); ?>
+<table class="span6">
+    <tbody>
+        <tr >
+            <td> <span class="label label-info" style="width:55px;"> DNI </span> <?php echo $model->dni; ?></td>
+            <td> <span class="label label-info" style="width:55px;"> Direcci&oacute;n </span> <?php echo $model->direccion; ?></td>
+        </tr>
+        <tr>
+            <td> <span class="label label-info" style="width:55px;">Ciudad </span> <?php echo $model->idciudad0->nombre; ?></td>
+            <td> <span class="label label-info" style="width:55px;">Provincia </span> <?php echo $model->idciudad0->idprovincia0->nombre; ?></td>
+        </tr>
+        <tr>
+            <td> <span class="label label-info" style="width:55px;">Tel&eacute;fono </span> <?php echo $model->telefono; ?></td>
+            <td> <span class="label label-info" style="width:55px;">Correo </span> <?php echo $model->email; ?></td>
+        </tr>
+    </tbody>
+</table>
+<?php $this->endWidget(); ?>

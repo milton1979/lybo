@@ -1,53 +1,42 @@
 <?php
-$this->breadcrumbs=array(
-	'Empleados'=>array('index'),
-	'Manage',
+$this->breadcrumbs = array(
+    'Usuarios' => array('/usuarios'),
+    'Administrar Empleados',
 );
-
-$this->menu=array(
-array('label'=>'List Empleado','url'=>array('index')),
-array('label'=>'Create Empleado','url'=>array('create')),
-);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-$('.search-form').toggle();
-return false;
-});
-$('.search-form form').submit(function(){
-$.fn.yiiGridView.update('empleado-grid', {
-data: $(this).serialize()
-});
-return false;
-});
-");
 ?>
-
-<h1>Manage Empleados</h1>
-
-<p>
-	You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>
-		&lt;&gt;</b>
-	or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
-
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
-<div class="search-form" style="display:none">
-	<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
-
-<?php $this->widget('bootstrap.widgets.TbGridView',array(
-'id'=>'empleado-grid',
-'dataProvider'=>$model->search(),
-'filter'=>$model,
-'columns'=>array(
-		'idempleado',
-		'idbiblioteca',
-		'idusuario',
-array(
-'class'=>'bootstrap.widgets.TbButtonColumn',
-),
-),
-)); ?>
+<div class="well">
+    <?php
+    $this->widget('bootstrap.widgets.TbGridView', array(
+        'id' => 'empleado-grid',
+        'type' => 'striped bordered condensed',
+        'dataProvider' => $model->search(),
+        'filter' => $model,
+        'columns' => array(
+            array('name' => 'dni',
+                'header' => 'DNI',
+                'value' => '$data->idusuario0->dni',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array('name' => 'apellido',
+                'header' => 'Apellido',
+                'value' => '$data->idusuario0->apellido',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array('name' => 'nombre',
+                'header' => 'Nombre',
+                'value' => '$data->idusuario0->nombre',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array('name' => 'biblioteca',
+                'filter' => CHtml::listData(Empleado::model()->findAll('idusuario=?', array(Yii::app()->user->id)), 'idbiblioteca0.nombre', 'idbiblioteca0.nombre'),
+                'value' => '$data->idbiblioteca0->nombre',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array(
+                'class' => 'bootstrap.widgets.TbButtonColumn',
+                'template' => '{view} {delete} {update}'
+            ),
+        ),
+    ));
+    ?>
+</div>

@@ -25,10 +25,11 @@ class UserIdentity extends CUserIdentity
                     $this->errorCode=self::ERROR_PASSWORD_INVALID;
             else{
                 $this->id=$record->id;
-                $this->setState('idUs',$record->id);
-//                    $this->setState('nombre', $record->dni0->nombre);
- //                   $this->setState('apellido', $record->dni0->apellido);
-            
+                if($record->admin)
+                   $this->setState('admin',true);
+                $this->setState('nombre', $record->nombre); 
+                $this->setState('apellido', $record->apellido);
+                
             $this->errorCode=self::ERROR_NONE;
             }
 		
@@ -38,4 +39,5 @@ class UserIdentity extends CUserIdentity
         public function getId(){
             return $this->id;
         }
+        
 }

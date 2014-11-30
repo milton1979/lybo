@@ -1,3 +1,0 @@
-crear la carpeta con nombre del proyecto dentro de var/www
-ejecutar en la terminal:
-php ../yii/framework/yiic.php webapp ./

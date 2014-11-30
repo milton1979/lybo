@@ -5,13 +5,14 @@
 
 $this->pageTitle=Yii::app()->name . ' - Login';
 $this->breadcrumbs=array(
-	'Login',
+	'Iniciar sesión',
 );
 ?>
-
-<h1>Login</h1>
-
-<p>Please fill out the following form with your login credentials:</p>
+<div class="well span10" style="margin-left: 7%;">
+    <div style="padding: 2% 33%;">
+<div class="text-info">
+    <h2>&nbsp;Iniciar sesion</h2>
+</div>
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -21,8 +22,6 @@ $this->breadcrumbs=array(
 		'validateOnSubmit'=>true,
 	),
 )); ?>
-
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
@@ -35,7 +34,7 @@ $this->breadcrumbs=array(
 		<?php echo $form->passwordField($model,'password'); ?>
 		<?php echo $form->error($model,'password'); ?>
 		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
+			
 		</p>
 	</div>
 
@@ -46,8 +45,14 @@ $this->breadcrumbs=array(
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
+		<?php echo CHtml::submitButton('Iniciar', array('class'=>'btn btn-primary', 'style'=>'width:220px;')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->
+¿Olvidaste tu password? 
+<a href="<?php echo Yii::app()->createUrl('site/recuperarpassword'); ?>">
+Recuperar
+</a>
+<br/><br/><br/><br/><br/>
+</div></div>
