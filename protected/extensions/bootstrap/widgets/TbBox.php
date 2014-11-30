@@ -84,7 +84,7 @@ class TbBox extends CWidget
 	public function init()
 	{
 		if (isset($this->htmlOptions['class'])) {
-			$this->htmlOptions['class'] = 'bootstrap-widget ' . $this->htmlOptions['class'];
+			$this->htmlOptions['class'] = 'info' . $this->htmlOptions['class'];
 		} else {
 			$this->htmlOptions['class'] = 'bootstrap-widget';
 		}

@@ -22,6 +22,8 @@
  */
 class Libro extends CActiveRecord
 {
+    
+    public $autor;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -53,7 +55,7 @@ class Libro extends CActiveRecord
 			array('nombre, codigo', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre, idautor, ideditorial, idedicion, idgenero, resumen, codigo', 'safe', 'on'=>'search'),
+			array('id, nombre, idautor, ideditorial, idedicion, idgenero, resumen, codigo, autor', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,12 +83,13 @@ class Libro extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
-			'idautor' => 'Idautor',
-			'ideditorial' => 'Ideditorial',
-			'idedicion' => 'Idedicion',
-			'idgenero' => 'Idgenero',
+			'idautor' => 'Autor',
+			'ideditorial' => 'Editorial',
+			'idedicion' => 'Edicion',
+			'idgenero' => 'Genero',
 			'resumen' => 'Resumen',
 			'codigo' => 'Codigo',
+                        'autor'=> 'Autor',
 		);
 	}
 
@@ -100,6 +103,7 @@ class Libro extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+                $criteria->with = array('idautor0');
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
@@ -109,9 +113,19 @@ class Libro extends CActiveRecord
 		$criteria->compare('idgenero',$this->idgenero);
 		$criteria->compare('resumen',$this->resumen,true);
 		$criteria->compare('codigo',$this->codigo,true);
+                $criteria->compare('idautor0.nombreyapellido',$this->autor,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'autor' => array(
+                                    'asc' => 'idautor0.nombreyapellido ASC',
+                                    'desc' => 'idautor0.nombreyapellido DESC',
+                                 ),
+                                '*'
+                            )
+                        ),
 		));
 	}
 }

@@ -49,7 +49,8 @@ body
 
 #mainmenu
 {
-	background:white url(bg.gif) repeat-x left top;
+    background-color: #09609e;
+    /*background:white url(bg.gif) repeat-x left top;*/
 }
 
 #mainmenu ul
@@ -61,6 +62,7 @@ body
 #mainmenu ul li
 {
 	display: inline;
+        padding: 4%;        
 }
 
 #mainmenu ul li a
@@ -71,6 +73,7 @@ body
 	font-weight:bold;
 	text-decoration:none;
 	padding:5px 8px;
+        border-radius: 5px 5px 5px 5px;
 }
 
 #mainmenu ul li a:hover, #mainmenu ul li.active a

@@ -1,64 +1,100 @@
 <?php
-$this->breadcrumbs=array(
-	'Usuarios'=>array('index'),
-	'Manage',
+$this->breadcrumbs = array(
+    'Usuarios' => array('/usuarios'),
+    'Editar Administradores',
 );
 
-$this->menu=array(
-array('label'=>'List Usuario','url'=>array('index')),
-array('label'=>'Create Usuario','url'=>array('create')),
-);
+Yii::app()->getClientScript()->registerScript(
+   "bajaScript","
+    function bajaAdmin(e) {
+        var url = $(this).attr('href');
+        e.preventDefault();    // <-- esto evita el comportamiento por defecto del tag <A>
+        alert(url);
+        $.ajax({
+                url: Yii::app()->createUrl('usuarios/default/delete',array('id'=>$model->id))',
+                type: 'post',
+                success: function(resp){ 
+                       // todo bien, refrescamos el CGridView
+                       $('#usuario-grid').yiiGridView('update');
+                     },
+                     error: function(e){
+                        alert(e.responseText); // algo salio mal
+                     }
+                });
 
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-$('.search-form').toggle();
-return false;
-});
-$('.search-form form').submit(function(){
-$.fn.yiiGridView.update('usuario-grid', {
-data: $(this).serialize()
-});
-return false;
-});
-");
+    }
+",CClientScript::POS_HEAD);
 ?>
 
-<h1>Manage Usuarios</h1>
 
-<p>
-	You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>
-		&lt;&gt;</b>
-	or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
-<div class="search-form" style="display:none">
-	<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
+<div class="well">
+    <?php
+    if (Yii::app()->user->getState('admin') === true)
+        echo CHtml::link('<span class="icon-plus-sign" style="margin:0 1%"></span> Crear Administrador', array('create'), array('class' => 'btn btn-success span5', 'style' => 'margin-left:28%;'));
+    ?>
 
-<?php $this->widget('bootstrap.widgets.TbGridView',array(
-'id'=>'usuario-grid',
-'dataProvider'=>$model->search(),
-'filter'=>$model,
-'columns'=>array(
-		'id',
-		'dni',
-		'usuario',
-		'pass',
-		'nombre',
-		'apellido',
-		/*
-		'idciudad',
-		'direccion',
-		'telefono',
-		'email',
-		'estado',
-		'admin',
-		*/
-array(
-'class'=>'bootstrap.widgets.TbButtonColumn',
-),
-),
-)); ?>
+    <br/>
+    <?php
+    $this->widget('bootstrap.widgets.TbGridView', array(
+        'id' => 'usuario-grid',
+        'type' => 'striped bordered condensed',
+        'dataProvider' => $model->search(),
+        'filter' => $model,
+        'columns' => array(
+            array('name' => 'dni',
+                'header' => 'DNI',
+                'value' => '$data->dni',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array('name' => 'apellido',
+                'header' => 'Apellido',
+                'value' => '$data->apellido',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array('name' => 'nombre',
+                'header' => 'Nombre',
+                'value' => '$data->nombre',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array('name' => 'email',
+                'header' => 'Correo',
+                'value' => '$data->email',
+                'headerHtmlOptions' => array('width' => '23%'),
+            ),
+            array(
+                'class' => 'bootstrap.widgets.TbButtonColumn',
+                'header'=>'Admin',
+                'template'=>'{administrador}',
+                'buttons' => array(
+                    'administrador' => array(
+                        'click'=>new CJavaScriptExpression("bajaAdmin"),
+                        'url'=>'CHtml::normalizeUrl(array("delete","id"=>$data->id))',
+                        //'administradorButtonUrl'=>'Yii::app()->createUrl("usuarios/default/delete",array("id"=>$data->id))',
+                        'label'=>'<span class="icon-ok"></span>',
+                        'options'=>array('title'=>'Baja Administrador'),
+                        'visible' => '($data->admin == 1 ) ? true : false',
+                        ),
+                    ),
+                ),
+            
+            array(
+                'class' => 'bootstrap.widgets.TbButtonColumn',
+                'header'=>'Admin',
+                'template'=>'{delete}',
+                'buttons' => array(
+                    'delete' => array(
+                        'label'=>'Baja',
+                        //'options'=>array('style'=>'','class'=>'span3 icon-ok'),
+                        'visible' => '($data->admin == 1 ) ? true : false',
+                        ))  
+            ),
+            array(
+                'class' => 'bootstrap.widgets.TbButtonColumn',
+                'header'=>'Editar',
+                'template' => '{view} {update}',
+            ),
+        ),
+      ));
+    ?>
+</div>

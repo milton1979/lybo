@@ -75,9 +75,9 @@ class Ejemplar extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'disponibilidad' => 'Disponibilidad',
-			'idestado' => 'Idestado',
-			'idbiblioteca' => 'Idbiblioteca',
-			'idlibro' => 'Idlibro',
+			'idestado' => 'Estado',
+			'idbiblioteca' => 'Biblioteca',
+			'idlibro' => 'Libro',
 		);
 	}
 

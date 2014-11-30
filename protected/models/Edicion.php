@@ -40,7 +40,7 @@ class Edicion extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('anio, edicion', 'required'),
-			array('anio', 'length', 'max'=>4),
+			array('anio', 'length', 'max'=>4, 'min'=>4),
 			array('edicion', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -67,7 +67,7 @@ class Edicion extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'anio' => 'Anio',
+			'anio' => 'Año',
 			'edicion' => 'Edicion',
 		);
 	}

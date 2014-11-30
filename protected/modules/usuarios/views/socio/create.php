@@ -1,15 +1,7 @@
 <?php
 $this->breadcrumbs=array(
-	'Socios'=>array('index'),
-	'Create',
+	'Empleados/Socios'=>array('/usuarios'),
+        'Crear Socio',
 );
 
-$this->menu=array(
-array('label'=>'List Socio','url'=>array('index')),
-array('label'=>'Manage Socio','url'=>array('admin')),
-);
-?>
-
-<h1>Create Socio</h1>
-
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+echo $this->renderPartial('_form', array('model'=>$model, 'modelUs'=>$modelUs)); ?>

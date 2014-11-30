@@ -106,4 +106,67 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	
+	
+	
+	
+	
+	public function actionRecuperarpassword(){
+		$model = new RecuperarPassword;
+		$msg = '';
+		if (isset($_POST["RecuperarPassword"])){
+			$model->attributes = $_POST["RecuperarPassword"];
+			if(!$model->validate()){
+				$msg = "<strong class='text-error'>ERROR AL ENVIAR EL FORMULARIO</strong>";
+			}
+			else{
+				$conexion = Yii::app()->db;
+				$consulta = "SELECT usuario, email FROM usuario WHERE ";
+				$consulta .= "usuario='".$model->username."' AND email='$model->email'";
+			
+			    $resultado = $conexion ->createCommand($consulta);
+			    $filas = $resultado->query();
+			    $existe = false;
+			    
+			    foreach($filas as $fila){
+			    	$existe = true;
+			    }
+			    if ($existe === true){
+			    	$consulta = "SELECT pass FROM usuario WHERE ";
+			    	$consulta .= "usuario='".$model->username."'AND email='".$model->email."'";
+			    
+			    	$resultado = $conexion->createCommand($consulta)->query();
+			    	$resultado->bindColumn(1,$password);
+			    	while($resultado->read()!==false){
+			    		$password = $password;
+			    	}
+			    	$email = new EnviarEmail;
+			    	$subject ="Has solicitado recuperar tu password en ";
+			    	$subject .= Yii::app()->name;
+			    	$message = "<h2>Bienvenid@</h2> <br>". "<b>Usuario: </b>".$model->username ."<br><b> Su password es: </b>";
+			    	$message .=$password;
+			    	$message .="<br/><br/>";
+			    	$message .="<a href='http://meta.fi.uncoma.edu.ar/lybo/'>Regresar a web</a>";
+			    	
+			    	$email->Enviar_Email(
+					array(Yii::app()->params['adminEmail'], Yii::app()->name),
+			    	array($model->email, $model->username),
+			    	$subject,
+			    	$message				
+			    	);
+			    	
+			    	$model->username = '';
+			    	$model->email ='';
+			    	$model->captcha='';
+			    	
+			    	$msg = "<strong class'text-info'>Le enviamos su password a su correo</strong>";
+			    }
+			    else{
+			    	$msg = "<strong class'text-error'>Error, el usuario no existe</strong>";
+			    }
+			}
+		}
+		
+		$this->render('recuperarpassword', array('model' => $model,'msg' =>$msg));
+	}
 }

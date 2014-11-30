@@ -21,6 +21,7 @@
  */
 class Biblioteca extends CActiveRecord
 {
+        public $ciudad;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -49,10 +50,11 @@ class Biblioteca extends CActiveRecord
 		return array(
 			array('nombre, direccion, idciudad, telefono, email, horario', 'required'),
 			array('idciudad', 'numerical', 'integerOnly'=>true),
+                        array('email', 'email'),
 			array('nombre, direccion, telefono, email, web, horario', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idbiblioteca, nombre, direccion, idciudad, telefono, email, web, horario', 'safe', 'on'=>'search'),
+			array('idbiblioteca, nombre, direccion, idciudad, telefono, email, web, horario, ciudad', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,14 +79,15 @@ class Biblioteca extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idbiblioteca' => 'Idbiblioteca',
+			'idbiblioteca' => 'Biblioteca',
 			'nombre' => 'Nombre',
 			'direccion' => 'Direccion',
-			'idciudad' => 'Idciudad',
+			'idciudad' => 'Ciudad',
 			'telefono' => 'Telefono',
 			'email' => 'Email',
 			'web' => 'Web',
 			'horario' => 'Horario',
+                        'ciudad'=>'Ciudad'
 		);
 	}
 
@@ -98,18 +101,29 @@ class Biblioteca extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+                $criteria->with = array('idciudad0');
 
 		$criteria->compare('idbiblioteca',$this->idbiblioteca);
-		$criteria->compare('nombre',$this->nombre,true);
+		$criteria->compare('biblioteca.nombre',$this->nombre,true);
 		$criteria->compare('direccion',$this->direccion,true);
 		$criteria->compare('idciudad',$this->idciudad);
 		$criteria->compare('telefono',$this->telefono,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('web',$this->web,true);
 		$criteria->compare('horario',$this->horario,true);
+                $criteria->compare('idciudad0.nombre',$this->ciudad,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'ciudad' => array(
+                                    'asc' => 'idciudad0.nombre ASC',
+                                    'desc' => 'idciudad0.nombre DESC',
+                                 ),
+                                '*'
+                            )
+                        )
 		));
 	}
 }

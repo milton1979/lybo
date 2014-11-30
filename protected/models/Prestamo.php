@@ -47,8 +47,8 @@ class Prestamo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, retiro, devolucion, observacion, idejemplar, idsocio, idtipo', 'required'),
-			array('id, idejemplar, idsocio, idtipo, idempleado', 'numerical', 'integerOnly'=>true),
+			array('retiro, devolucion, idejemplar, idsocio, idtipo', 'required'),
+			array('idejemplar, idsocio, idtipo, idempleado', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, retiro, devolucion, observacion, idejemplar, idsocio, idtipo, idempleado', 'safe', 'on'=>'search'),
@@ -80,9 +80,9 @@ class Prestamo extends CActiveRecord
 			'retiro' => 'Retiro',
 			'devolucion' => 'Devolucion',
 			'observacion' => 'Observacion',
-			'idejemplar' => 'Idejemplar',
-			'idsocio' => 'Idsocio',
-			'idtipo' => 'Idtipo',
+			'idejemplar' => 'Ejemplar',
+			'idsocio' => 'Socio',
+			'idtipo' => 'Tipo',
 			'idempleado' => 'Idempleado',
 		);
 	}
